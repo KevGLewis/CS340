@@ -1,0 +1,16 @@
+<h1>Workout Checklist:</h1>
+<h3>Edit the excercise:</h3>
+{{#each excercise}}
+<form action = 'http://localhost:2333' method="post">
+    <div>Name: <input type="text" name="name" id="nameIn" value = "{{this.name}}" required="required"></div>
+    <div>Reps: <input type="number" name="reps" id="repIn" value = "{{this.reps}}" required="required"></div>
+    <div>Weight: <input type="number" name="weight" id="weightIn" value = "{{this.weight}}" required="required"></div>
+    <div>Date: <input type="date" name="date" id="dateIn" value = "{{this.date}}" required="required"></div>
+    <div>Unit: 
+        <input type="radio" name="unit" value="lbs" id="lbsIn" {{#if lbsCheck}}checked{{/if}}> lbs
+        <input type="radio" name="unit" value="kg" id="kgIn" {{#if kgCheck}}checked{{/if}}> kg
+    </div>
+    <input type="hidden" name="IdEdit" value="{{this.id}}" id = "IdEdit">
+    <input type="submit" name="editItem" value="Edit Item">
+</form>
+{{/each}}

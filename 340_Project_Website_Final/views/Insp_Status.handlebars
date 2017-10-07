@@ -1,0 +1,84 @@
+<h1>Inspection Status:</h1>
+<h3>Enter how you want to filter the Inspection Status List:</h3>
+<div class="row 200%">
+        <tr>
+            <form class="changeServer" action = 'Insp_Status' method="GET">
+                <td>
+                    <div>LOA: <select name="loa" id="loa">
+                                        <option value="none">None</option>
+                                    {{#each LOA}}
+                                        <option value="{{this.id}}">{{this.number}}</option>
+                                    {{/each}}
+                                </select>
+                    </div>
+                </td>
+                <td>
+                    <input type="submit" name="LOA_Sort" value="Filter">
+                </td>
+            </form>
+            <form class="changeServer" action = 'Insp_Status' method="GET">
+                <td> Bridge: <select name="id" id="id">
+                                        <option value="none">None</option>
+                                    {{#each bridge}}
+                                        <option value="{{this.id}}">{{this.NBI_ID}}</option>
+                                    {{/each}}
+                        </select>
+                </td>
+                <td>
+                    <input type="submit" name="Bridge_Sort" value="Filter">
+                </td>
+            </form>
+        </tr>
+        <tr>
+            <form class="changeServer" action = 'Insp_Status' method="GET">
+                <td>
+                    <div>Inspection ID: <select name="elem_id" id="elem_id">
+                                        <option value="none">None</option>
+                                    {{#each elements}}
+                                        <option value="{{this.elem_id}}">{{this.elem_id}}</option>
+                                    {{/each}}
+                                </select>
+                    </div>
+                </td>
+                <td>
+                    <input type="submit" name="ID_Sort" value="Filter">
+                </td>
+            </form>
+            <form class="changeServer" action = 'Insp_Status' method="GET">
+                <td>Status: <select name="bud" id="bud">
+                                    <option value='none'>None</option>
+                                    <option value='over'>Over Budget</option>
+                                    <option value='under'>Under Budget</option>
+                            </select>
+                </td>
+                <td>
+                    <input type="submit" name="Budget" value="Filter">
+                </td>
+            </form>
+        </tr>
+</div>
+
+<h2>LOA List:</h2>
+<table id = 'InspList'>
+    <tr>
+        <th>Inspection ID</th>
+        <th>Bridge NBI</th>
+        <th>LOA Number</th>
+        <th>Total Budget ($) </th>
+        <th>Total Spent ($)</th>
+        <th>Over Budget?</th>
+    </tr>
+    {{#each data}}
+    <tr>
+        <td>{{this.elem_id}}</td>
+        <td>{{this.NBI_ID}}</td>
+        <td>{{this.number}}</td>
+        <td>{{this.total_spent}}</td>
+        <td>{{this.total_budget}}</td>
+        <td>{{this.cur_status}}</td>
+    </tr>
+    {{/each}}
+</table>
+
+
+<script src="/js/Insp_Status.js"></script>

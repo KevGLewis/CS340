@@ -1,0 +1,50 @@
+<h1>Employee:</h1>
+<h3>Enter an employee that you want to add:</h3>
+<div class="row 200%">
+    <div class="6u$ 12u$(medium)">
+        <form>
+            <div>Employee ID: <input type="number" name="eid" id="eid" value="0"></div>
+            <div>First Name: <input type="text" name="name" id="first_name" value=""></div>
+            <div>Last Name: <input type="text" name="name" id="last_name" value=""></div>
+            <div>Hourly Rate: <input type="number" name="rate" id="rate" step="0.01"></div>
+            <div>Office: <select name="office" id="office">
+                            {{#each office}}
+                                <option value="{{this.id}}">{{this.name}}</option>
+                            {{/each}}
+                        </select>
+            <input type="button" name="Add Item" value="Add Employee" onclick = "validateForm(event)">
+            </div>
+        </form>
+    </div>
+</div>
+
+<h2>Employee List:</h2>
+<table id = 'employeeList'>
+    <tr>
+        <th>Employee ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Hourly Rate</th>
+        <th>Office</th>
+        <th>Edit</th>
+    </tr>
+    {{#each data}}
+    <tr>
+        <form class="changeServer" action = 'employee' method="GET">
+            <td>{{this.eid}}</td>
+            <td>{{this.first_name}}</td>
+            <td>{{this.last_name}}</td>
+            <td><input type="number" name="hourly_rate" step="0.01" value="{{this.hourly_rate}}"></td>
+            <td>{{this.office_name}}</td>
+            <td>
+                <input type="hidden" name="eid" value="{{this.eid}}">
+                <input type="submit" name="editItem" value="Edit">
+            </td>
+        </form>
+        
+    </tr>
+    {{/each}}
+</table>
+
+
+<script src="/js/employee.js"></script>

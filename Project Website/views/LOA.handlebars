@@ -1,0 +1,23 @@
+<h1>LOA:</h1>
+<h3>Add an LOA:</h3>
+<form>
+    <div>Number: <input type="number" name="number" id="number"></div>
+
+    <input type="button" name="Add Item" value="Add Item" onclick = "validateForm(event)">
+</form>
+
+<h2>List:</h2>
+<table id = 'LOAlist'>
+    <tr>
+        <th>LOA Number</th>
+    </tr>
+    {{#each data}}
+    <tr>
+        <td>{{this.number}}</td>
+        
+    </tr>
+    {{/each}}
+</table>
+
+
+<script src="/js/LOA.js"></script>

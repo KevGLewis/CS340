@@ -1,0 +1,93 @@
+1-   Find all products (product code and product name) which are ordered by customer "Herkku Gifts" on   11/18/2003.
+
+SELECT p.productCode, p.productName 
+FROM products p 
+INNER JOIN orderdetails od ON od.productCode = p.productCode 
+INNER JOIN orders o ON o.orderNumber = od.orderNumber 
+INNER JOIN customers c ON c.customerNumber = o.customerNumber 
+WHERE c.customerName = "Herkku Gifts" AND o.orderDate = "2003-11-18"
+
+SELECT p.productCode, p.productName
+FROM products p
+INNER JOIN orderdetails od ON p.productCode = od.productCode
+INNER JOIN orders o ON od.orderNumber = o.orderNumber
+INNER JOIN customers c ON o.customerNumber = c.customerNumber
+WHERE c.customerName = "Herkku Gifts"
+AND o.orderDate = "2003-11-18";
+
+
+2-   For each product list the product code and the total number of orders containing that product. You do not need to list a product if   it has not been in   any order
+
+SELECT p.productCode, COUNT(od.quantityOrdered) 
+FROM products p 
+INNER JOIN orderdetails od ON od.productCode = p.productCode 
+GROUP BY p.productCode
+
+SELECT p.productCode, COUNT(od.orderNumber)
+FROM products p 
+INNER JOIN orderdetails od ON p.productCode = od.productCode
+GROUP BY p.productCode;
+
+
+3-   Find the number and name of   all customers who have never ordered a prodcut named "2001 Ferrari Enzo".
+
+SELECT c.customerNumber, c.customerName 
+FROM customers c 
+INNER JOIN orders o ON o.customerNumber = c.customerNumber 
+INNER JOIN orderdetails od ON od.orderNumber = o.orderNumber 
+INNER JOIN products p ON p.productCode = od.productCode 
+WHERE p.productName = "2001 Ferrari Enzo"
+
+SELECT customerNumber, customerName
+FROM customers 
+WHERE customerNumber NOT IN (
+SELECT customerNumber
+FROM orders o INNER JOIN orderdetails od ON o.orderNumber = od.orderNumber
+INNER JOIN products p ON od.productCode = p.productCode
+WHERE p.productName = "2001 Ferrari Enzo"
+);
+
+
+4-   We want to find out how many of each product customer "Mini Wheels Co."has ordered. So   return a  table with product code and the total quantity ordered of that product by   customer "Mini Wheels Co." (Your query should return every product even if "Mini Wheels Co." has never ordered that product).
+
+
+SELECT prod.productCode, sf.totalOrdered 
+FROM products prod 
+LEFT JOIN (SELECT p.productCode, c.customerName, SUM(od.quantityOrdered) As totalOrdered 
+		FROM products p 
+		INNER JOIN orderdetails od ON od.productCode = p.productCode
+ 		INNER JOIN orders o ON o.orderNumber = od.orderNumber 
+		INNER JOIN customers c ON c.customerNumber = o.customerNumber 
+		WHERE c.customerName = "Mini Wheels Co." GROUP BY p.productCode) 
+AS sf ON sf.productCode = prod.productCode
+
+SELECT p.productCode, SUM(quantityOrdered)
+FROM products p
+LEFT JOIN ( SELECT od.productCode, od.quantityOrdered
+		FROM orderdetails od
+		INNER JOIN orders o ON od.orderNumber = o.orderNumber
+		INNER JOIN customers c ON o.customerNumber = c.customerNumber
+		WHERE c.customerName = "Mini Wheels Co.") as tmp
+ON tmp.productCode = p.productCode
+GROUP BY p.productCode;
+
+
+5-   Find the first name and last name of   all employees whose office is located in "Boston" and report to   "Anthony Bow".
+
+SELECT e.firstName, e.lastName 
+FROM employees e 
+INNER JOIN offices o ON o.officeCode = e.officeCode 
+WHERE e.reportsTo = (SELECT reportsTo 
+		FROM employees 
+		WHERE lastName = "Bow" AND firstName = "Anthony") AND o.city = "Boston" 
+
+
+SELECT e.firstName, e.lastName
+FROM employees e Inner Join offices o ON e.officeCode = o.officeCode
+WHERE e.reportsTo = (SELECT employeeNumber
+				FROM employees
+                     	WHERE firstName="Anthony" and 			lastName="Bow")
+AND o.city="Boston";
+
+
+
